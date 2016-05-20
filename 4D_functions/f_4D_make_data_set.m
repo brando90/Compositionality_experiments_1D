@@ -16,5 +16,5 @@ eps = 0.1;
 epsilon = randn(N,1);
 for n = 1:N
     xn = X(n,:);
-    f_xn = f_target(1,1).f_4D( x, f_target ) + epsilon(n);
+    f_xn = f_target(1,1).f_4D( x, f_target );
 end
