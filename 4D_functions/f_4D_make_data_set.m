@@ -8,13 +8,10 @@ f_target(1,2).h = h12;
 f_target(2,1).h = h21;
 f_target(1,1).f = @f_4D;
 %%
-D = 4;
-x_max = 2;
-x_min = -2;
-X = x_min + (x_max - x_min).*rand(N,D);
-eps = 0.1;
-epsilon = randn(N,1);
-for n = 1:N
-    xn = X(n,:);
-    f_xn = f_target(1,1).f_4D( x, f_target );
-end
+sigpower = 'measured';
+powertype = 'linear';
+snr = 8;
+low_x = -2;
+high_x = 2;
+nb_samples = 10000;
+generate_data_from_function( f_target, snr, low_x,high_x, nb_samples, sigpower, powertype)
