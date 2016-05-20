@@ -10,11 +10,13 @@ for l=1:L
         case 'F_NO_activation_final_layer'
             nn(l).Act = Identity;
             nn(l).dAct_ds = dIdentity_ds;
+            nn(l).beta = 0;
+            nn(l).lambda = mdl_param(l).lambda;
         case 'F_activation_final_layer'
             nn(l).Act = mdl_params(1).Act;
             nn(l).dAct_ds = mdl_params(1).dAct_ds;
             nn(l).beta = 0;
-            nn(l).lambda = lambda;
+            nn(l).lambda = mdl_param(l).lambda;
         end
     else
         nn(l).Act = mdl_param(l).Act;
@@ -25,7 +27,8 @@ for l=1:L
 end
 %% initialize
 for l=1:L
-    [D_l_1, D_l] = size(mdl_param(l).Dim);
+    D_l_1 = mdl_param(l).Dim(1);
+    D_l = mdl_param(l).Dim(2);
     nn(l).W = mdl_param(l).eps * randn([D_l_1, D_l] );
     nn(l).b = mdl_param(l).eps * randn([1, D_l] );
 end
