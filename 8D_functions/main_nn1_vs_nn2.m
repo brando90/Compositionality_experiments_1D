@@ -7,7 +7,7 @@ folderName = fullfile('../../../hbf_research_ml_model_library/common');
 p = genpath(folderName);
 addpath(p);
 %% target function
-data_set = './f4D_all_data_set';
+data_set = './f8D_all_data_set';
 load(data_set);
 D = size(X,2);
 D_out = size(Y,2);
@@ -31,7 +31,7 @@ lambda = 0;
 L=2; % 2 layer, 1 hidden layer
 nn1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
 %dim of W and b
-D_1 = 24;
+D_1 = 6;
 nn1_param(1).Dim = [D, D_1];
 nn1_param(2).Dim = [D_1, D_out];
 %scale of init W
@@ -72,8 +72,8 @@ test_error_nn1 = iteration_errors_test_nn1(nb_iterations);
 L=3; % 3 layer, 2 hidden layer
 nn2_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
 %dim of W and b
-D_1 = 16;
-D_2 = 8;
+D_1 = 4;
+D_2 = 2;
 nn2_param(1).Dim = [D, D_1];
 nn2_param(2).Dim = [D_1, D_2];
 nn2_param(3).Dim = [D_2, D_out];
