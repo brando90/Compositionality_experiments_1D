@@ -1,4 +1,4 @@
-function [ mdl ] = make_HBF_model(L, mdl_param)
+function [ mdl ] = make_HBF_model(L, mdl_param, gpu_on)
 run('./activation_funcs');
 mdl = struct('W', cell(1,L),'b', cell(1,L),'F', cell(1,L), 'Act',cell(1,L),'dAct_ds',cell(1,L),'lambda', cell(1,L), 'beta', cell(1,L));
 %% set activation funcs
@@ -29,6 +29,11 @@ end
 for l=1:L
     D_l_1 = mdl_param(l).Dim(1);
     D_l = mdl_param(l).Dim(2);
-    mdl(l).W = mdl_param(l).eps * randn([D_l_1, D_l] );
+    if gpu_on
+        mdl(l).W = gpuArray( mdl_param(l).eps * randn([D_l_1, D_l] ) );
+    else
+        mdl(l).W = mdl_param(l).eps * randn([D_l_1, D_l] );
+    end
 end
+
 end

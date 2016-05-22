@@ -68,7 +68,7 @@ hbf1_param(1).F = 'F_NO_activation_final_layer';
 hbf1_param(1).lambda = 0;
 hbf1_param(2).lambda = 0;
 %make NN mdl
-hbf1 = make_HBF_model(L, hbf1_param);
+hbf1 = make_HBF_model(L, hbf1_param, gpu_on);
 
 %%%%%%%%%%%%%%%
 %% make 2 hidden NN model
@@ -102,7 +102,7 @@ for l=1:L
     hbf2_param(l).lambda = 0;
 end
 %make NN mdl
-hbf2 = make_HBF_model( L, hbf2_param);
+hbf2 = make_HBF_model( L, hbf2_param, gpu_on);
 
 %%%%%%%%%%%%%%%
 %% mdl params for training
