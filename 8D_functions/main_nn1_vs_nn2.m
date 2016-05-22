@@ -31,7 +31,7 @@ lambda = 0;
 L=2; % 2 layer, 1 hidden layer
 nn1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
 %dim of W and b
-D_1 = 6;
+D_1 = 5;
 nn1_param(1).Dim = [D, D_1];
 nn1_param(2).Dim = [D_1, D_out];
 %scale of init W
@@ -50,15 +50,15 @@ nn1 = make_NN_model(L, nn1_param);
 %% mdl params for training
 sgd_errors = 1;
 %nb_iterations = int64(100) % nb_iterations
-nb_iterations = int64(10000) % nb_iterations
+nb_iterations = int64(10500) % nb_iterations
 batchsize = 64
 step_size_params_nn1 =  struct('eta_c', cell(1), 'eta_t', cell(1), ...
     'AdaGrad', cell(1), 'Momentum', cell(1), ...
     'Decaying', cell(1), 'step_size', cell(1), 'print_error_to_screen', cell(1) );
 step_size_params_nn1.print_error_to_screen = 1;
-step_size_params_nn1.Decaying = 2;
+step_size_params_nn1.Decaying = 1;
 step_size_params_nn1.step_size = 0.01;
-step_size_params_nn1.decay_rate = 1; %if 1 its not decaying then
+step_size_params_nn1.decay_rate = 1.5; %if 1 its not decaying then
 %% train 1 hidden NN model
 tic
 [ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations, batchsize, X_test,Y_test, step_size_params_nn1, sgd_errors);
@@ -102,9 +102,9 @@ step_size_params_nn2 =  struct('eta_c', cell(1), 'eta_t', cell(1), ...
     'AdaGrad', cell(1), 'Momentum', cell(1), ...
     'Decaying', cell(1), 'step_size', cell(1), 'print_error_to_screen', cell(1) );
 step_size_params_nn2.print_error_to_screen = 1;
-step_size_params_nn2.Decaying = 2;
+step_size_params_nn2.Decaying = 1;
 step_size_params_nn2.step_size = 0.01;
-step_size_params_nn2.decay_rate = 1; %if 1 its not decaying then
+step_size_params_nn2.decay_rate = 1.5; %if 1 its not decaying then
 %% train 2 hidden NN model
 tic
 [ nn2, iteration_errors_train_nn2, iteration_errors_test_nn2 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train,Y_train, nn2, nb_iterations,batchsize, X_test,Y_test, step_size_params_nn2, sgd_errors );
