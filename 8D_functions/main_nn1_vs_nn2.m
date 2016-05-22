@@ -50,9 +50,9 @@ D_1 = 8;
 nn1_param(1).Dim = [D, D_1];
 nn1_param(2).Dim = [D_1, D_out];
 %scale of init W
-eps = 0.01;
-nn1_param(1).eps = eps;
-nn1_param(2).eps =eps;
+eps_nn1 = 0.01;
+nn1_param(1).eps = eps_nn1;
+nn1_param(2).eps =eps_nn1;
 %activation funcs and F
 nn1_param(1).Act = Act;
 nn1_param(1).dAct_ds = dAct_ds;
@@ -74,9 +74,9 @@ nn2_param(1).Dim = [D, D_1];
 nn2_param(2).Dim = [D_1, D_2];
 nn2_param(3).Dim = [D_2, D_out];
 %scale of init W
-eps_nn1 = 0.01;
+eps_nn2 = 0.01;
 for l=1:L
-    nn2_param(l).eps =eps_nn1;
+    nn2_param(l).eps =eps_nn2;
 end
 %activation funcs and F
 for l=1:L-1
@@ -109,6 +109,6 @@ tic
 time_passed = toc;
 [secs_nn2, minutes_nn2, hours_nn2, ~] = time_elapsed(nb_iterations_nn2, time_passed )
 %
-save('current_results')
+save('current_results_nn')
 %%
 beep;
