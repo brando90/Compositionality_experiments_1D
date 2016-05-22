@@ -9,7 +9,7 @@ step_size_params_hbf2.step_size = 0.01;
 step_size_params_hbf2.decay_rate = 1.5; %if 1 its not decaying then
 step_size_params_hbf2.mod_when = 2000;
 %% nb_iterations
-nb_iterations_hbf2 = int64(1000);
+nb_iterations_hbf2 = int64(100000);
 batchsize_hbf2 = 2;
 end
 
