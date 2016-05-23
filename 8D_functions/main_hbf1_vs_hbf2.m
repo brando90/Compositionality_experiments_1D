@@ -1,4 +1,5 @@
 restoredefaultpath;clear;clc;clear;clc;
+fprintf('HBF1 vs HBF2');
 %% load multilayer libraries
 folderName = fullfile('../../../hbf_research_ml_model_library/multilayer_HBF_multivariant_regression');
 p = genpath(folderName);

@@ -9,7 +9,10 @@ step_size_params_hbf2.step_size = 0.01;
 step_size_params_hbf2.decay_rate = 1.5; %if 1 its not decaying then
 step_size_params_hbf2.mod_when = 2000;
 %% nb_iterations
-nb_iterations_hbf2 = int64(100000);
+nb_iterations_hbf2 = int64(10000);
 batchsize_hbf2 = 2;
+%% print iteration
+factor = 100;
+step_size_params_hbf1.print_every_multiple = ceil(nb_iterations_hbf2/factor);
 end
 

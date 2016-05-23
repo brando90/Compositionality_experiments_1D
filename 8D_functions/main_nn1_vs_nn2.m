@@ -1,4 +1,5 @@
 restoredefaultpath;clear;clc;clear;clc;
+fprintf('NN1 vs NN2');
 %% load multilayer libraries
 folderName = fullfile('../../../hbf_research_ml_model_library/multilayer_HModel_multivariant_regression');
 p = genpath(folderName);
