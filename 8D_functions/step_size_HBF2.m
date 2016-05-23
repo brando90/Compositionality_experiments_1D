@@ -13,6 +13,6 @@ nb_iterations_hbf2 = int64(10000);
 batchsize_hbf2 = 2;
 %% print iteration
 factor = 100;
-step_size_params_hbf1.print_every_multiple = ceil(nb_iterations_hbf2/factor);
+step_size_params_hbf2.print_every_multiple = ceil(nb_iterations_hbf2/factor);
 end
 

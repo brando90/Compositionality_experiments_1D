@@ -13,5 +13,5 @@ nb_iterations_nn1 = int64(10000);
 batchsize_nn1 = 32;
 %% print iteration
 factor = 100;
-step_size_params_hbf1.mod_when = ceil(nb_iterations_nn1/factor);
+step_size_params_nn1.print_every_multiple = ceil(nb_iterations_nn1/factor);
 end

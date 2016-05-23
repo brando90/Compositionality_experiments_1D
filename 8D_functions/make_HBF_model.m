@@ -1,4 +1,4 @@
-function [ mdl ] = make_HBF_model(L, mdl_param, gpu_on)
+function [ mdl ] = make_HBF_model(L, mdl_param)
 run('./activation_funcs');
 mdl = struct('W', cell(1,L),'b', cell(1,L),'F', cell(1,L), 'Act',cell(1,L),'dAct_ds',cell(1,L),'lambda', cell(1,L), 'beta', cell(1,L));
 %% set activation funcs
@@ -29,10 +29,21 @@ end
 for l=1:L
     D_l_1 = mdl_param(l).Dim(1);
     D_l = mdl_param(l).Dim(2);
-    if gpu_on
-        mdl(l).W = gpuArray( mdl_param(l).eps * randn([D_l_1, D_l] ) );
-    else
+    switch init_method
+    case 't_zeros_plus_eps'
         mdl(l).W = mdl_param(l).eps * randn([D_l_1, D_l] );
+    case 't_random_data_points'
+        if l == 1
+            % selects K rows selected from X_train
+            mdl(l).W = datasample(X_train, K, 'Replace', false)';
+        elseif l == L
+            %should we have data points as mixing ceoffs or activations?
+            error('TODO')
+        else
+            error('TODO')
+        end
+    otherwise
+        error('Initi method not existent')
     end
 end
 
