@@ -35,6 +35,7 @@ if gpu_on
     X_test = gpuArray(X_test);
     Y_test = gpuArray(Y_test);
 end
+%%%%%%%%%%%%%%%
 %% Activation funcs
 run('./activation_funcs');
 %Act = relu_func;
@@ -44,7 +45,6 @@ run('./activation_funcs');
 Act = gauss_func;
 dAct_ds = dGauss_ds;
 lambda = 0;
-%%%%%%%%%%%%%%%
 %% make 1 hidden NN model
 L=2; % 2 layer, 1 hidden layer
 hbf1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
