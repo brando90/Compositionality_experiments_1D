@@ -29,7 +29,7 @@ end
 for l=1:L
     D_l_1 = mdl_param(l).Dim(1);
     D_l = mdl_param(l).Dim(2);
-    switch init_method
+    switch mdl_param(1).init_method
     case 't_zeros_plus_eps'
         mdl(l).W = mdl_param(l).eps * randn([D_l_1, D_l] );
     case 't_random_data_points'

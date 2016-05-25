@@ -53,10 +53,12 @@ D_1 = 8;
 hbf1_param(1).Dim = [D, D_1];
 hbf1_param(2).Dim = [D_1, D_out];
 %gaussian std/precision
-std_gau_hbf1 = 0.5;
-gau_precision_hbf1 = 1/(2*std_gau_hbf1);
-hbf1_param(1).beta = gau_precision_hbf1;
-hbf1_param(2).beta = gau_precision_hbf1;
+%std_gau_hbf1 = 0.5;
+%gau_precision_hbf1 = 1/(2*std_gau_hbf1);
+a = 0.005;
+b = 0.007;
+hbf1_param(1).beta =  a + (b-a).*rand(1,1); % a + (b-a).*rand(1,1);
+hbf1_param(2).beta = a + (b-a).*rand(1,1); % a + (b-a).*rand(1,1);
 %scale of init W
 eps_hbf1 = 0.01;
 hbf1_param(1).eps = eps_hbf1;
@@ -68,6 +70,8 @@ hbf1_param(1).F = 'F_NO_activation_final_layer';
 %regularization
 hbf1_param(1).lambda = 0;
 hbf1_param(2).lambda = 0;
+% initialize
+hbf1_param(1).init_method = 't_zeros_plus_eps';
 %make NN mdl
 hbf1 = make_HBF_model(L, hbf1_param);
 
@@ -82,9 +86,12 @@ hbf2_param(1).Dim = [D, D_1];
 hbf2_param(2).Dim = [D_1, D_2];
 hbf2_param(3).Dim = [D_2, D_out];
 %gaussian std/precision
-std_gau_hbf2 = 0.5;
-gau_precision_hbf2 = 1/(2*std_gau_hbf2);
+%std_gau_hbf2 = 0.5;
+%gau_precision_hbf2 = 1/(2*std_gau_hbf2);
+a = 0.005;
+b = 0.007;
 for l=1:L
+    gau_precision_hbf2 = a + (b-a).*rand(1,1); % a + (b-a).*rand(100,1);
     hbf2_param(l).beta = gau_precision_hbf2;
 end
 %scale of init W
@@ -102,6 +109,8 @@ hbf2_param(1).F = 'F_NO_activation_final_layer';
 for l=1:L
     hbf2_param(l).lambda = 0;
 end
+% initialize
+hbf2_param(1).init_method = 't_zeros_plus_eps';
 %make NN mdl
 hbf2 = make_HBF_model( L, hbf2_param);
 
