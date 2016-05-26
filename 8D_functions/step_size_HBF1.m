@@ -1,5 +1,5 @@
 function [ step_size_params, nb_iterations, batchsize ] = step_size_HBF1( )
-L = 1;
+L = 2;
 %% step-size
 step_size_params =  struct( 'AdaGrad', cell(1,1), 'Momentum', cell(1,1), ...
     'Decaying', cell(1,1), 'step_size', cell(1,1), ...
