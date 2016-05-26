@@ -8,8 +8,8 @@ folderName = fullfile('../../../hbf_research_ml_model_library/common');
 p = genpath(folderName);
 addpath(p);
 %% target function
-data_set = './f8D_all_data_set';
-%data_set = 'f8D_all_data_set_Id_interval';
+%data_set = './f8D_all_data_set';
+data_set = 'f8D_all_data_set_Id_interval';
 fprintf('DATA SET: %s \n', data_set);
 load(data_set);
 D = size(X,2);
@@ -49,14 +49,14 @@ lambda = 0;
 L=2; % 2 layer, 1 hidden layer
 hbf1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
 %dim of W
-D_1 = 8;
+D_1 = 6;
 hbf1_param(1).Dim = [D, D_1];
 hbf1_param(2).Dim = [D_1, D_out];
 %gaussian std/precision
 %std_gau_hbf1 = 0.5;
 %gau_precision_hbf1 = 1/(2*std_gau_hbf1);
-a = 0.005;
-b = 0.007;
+a = 0.0005;
+b = 0.0007;
 hbf1_param(1).beta =  a + (b-a).*rand(1,1); % a + (b-a).*rand(1,1);
 hbf1_param(2).beta = a + (b-a).*rand(1,1); % a + (b-a).*rand(1,1);
 %scale of init W
@@ -90,8 +90,8 @@ hbf2_param(3).Dim = [D_2, D_out];
 %gaussian std/precision
 %std_gau_hbf2 = 0.5;
 %gau_precision_hbf2 = 1/(2*std_gau_hbf2);
-a = 0.005;
-b = 0.007;
+a = 0.0005;
+b = 0.0007;
 for l=1:L
     gau_precision_hbf2 = a + (b-a).*rand(1,1); % a + (b-a).*rand(100,1);
     hbf2_param(l).beta = gau_precision_hbf2;
@@ -127,7 +127,7 @@ sgd_errors_hbf2 = 1; % record errors in SGS?
 [ step_size_params_hbf2, nb_iterations_hbf2, batchsize_hbf2 ] = step_size_HBF2( );
 %% train 1 hidden NN model
 tic
-%[ hbf1, iteration_errors_train_hbf1, iteration_errors_test_hbf1 ] = multilayer_learn_HBF_MiniBatchSGD( X_train, Y_train, hbf1, nb_iterations_hbf1, batchsize_hbf1, X_test,Y_test, step_size_params_hbf1, sgd_errors_hbf1);
+[ hbf1, iteration_errors_train_hbf1, iteration_errors_test_hbf1 ] = multilayer_learn_HBF_MiniBatchSGD( X_train, Y_train, hbf1, nb_iterations_hbf1, batchsize_hbf1, X_test,Y_test, step_size_params_hbf1, sgd_errors_hbf1);
 time_passed = toc;
 [secs_hbf1, minutes_hbf1, hours_hbf1, ~] = time_elapsed(nb_iterations_hbf1, time_passed )
 %% train 2 hidden NN model
