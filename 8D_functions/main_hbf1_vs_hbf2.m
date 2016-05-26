@@ -71,7 +71,9 @@ hbf1_param(1).F = 'F_NO_activation_final_layer';
 hbf1_param(1).lambda = 0;
 hbf1_param(2).lambda = 0;
 % initialize
-hbf1_param(1).init_method = 't_zeros_plus_eps';
+%hbf1_param(1).init_method = 't_zeros_plus_eps';
+hbf1_param(1).init_method = 't_random_data_points';
+hbf1_param(1).X_train = X_train;
 %make NN mdl
 hbf1 = make_HBF_model(L, hbf1_param);
 
@@ -110,7 +112,9 @@ for l=1:L
     hbf2_param(l).lambda = 0;
 end
 % initialize
-hbf2_param(1).init_method = 't_zeros_plus_eps';
+%hbf2_param(1).init_method = 't_zeros_plus_eps';
+hbf2_param(1).init_method = 't_random_data_points';
+hbf2_param(1).X_train = X_train;
 %make NN mdl
 hbf2 = make_HBF_model( L, hbf2_param);
 
