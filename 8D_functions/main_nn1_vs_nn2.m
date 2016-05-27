@@ -47,7 +47,7 @@ lambda = 0;
 L=2; % 2 layer, 1 hidden layer
 nn1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
 %dim of W and b
-D_1 = 5;
+D_1 = 6;
 nn1_param(1).Dim = [D, D_1];
 nn1_param(2).Dim = [D_1, D_out];
 %scale of init W
@@ -106,7 +106,7 @@ sgd_errors_nn2 = 1; % record errors in SGS?
 [ step_size_params_nn2, nb_iterations_nn2, batchsize_nn2 ] = step_size_NN2( );
 %% train 1 hidden NN model
 tic
-[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
+%[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
 time_passed = toc;
 num_params_nn1
 [secs_nn1, minutes_nn1, hours_nn1, ~] = time_elapsed(nb_iterations_nn1, time_passed )
