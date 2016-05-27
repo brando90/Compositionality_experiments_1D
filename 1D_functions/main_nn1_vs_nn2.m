@@ -44,58 +44,109 @@ dAct_ds = dSigmoid_ds;
 lambda = 0;
 %%%%%%%%%%%%%%%
 %% make 1 hidden NN model
-L=2; % 2 layer, 1 hidden layer
-nn1_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
-%dim of W and b
-D_1 = 6;
-nn1_param(1).Dim = [D, D_1];
-nn1_param(2).Dim = [D_1, D_out];
+%% make 2 hidden NN model
+L=4;
+nn_param = struct('eps', cell(1,L) );
 %scale of init W
-eps_nn1 = 0.01;
-nn1_param(1).eps = eps_nn1;
-nn1_param(2).eps =eps_nn1;
+eps_nn = 0.01;
+for l=1:L
+    nn_param(l).eps =eps_nn;
+end
+%
+nn = struct('W', cell(1,L),'b', cell(1,L),'F', cell(1,L), 'Act',cell(1,L),'dAct_ds',cell(1,L),'lambda', cell(1,L), 'beta', cell(1,L));
+%dim of W and b
+D_1 = 3;
+D_2 = D_out;
+nn(1).W = zeros([D, D_1]);
+nn(2).W = zeros([D_1, D_2]);
 %activation funcs and F
-nn1_param(1).Act = Act;
-nn1_param(1).dAct_ds = dAct_ds;
-nn1_param(1).F = 'F_NO_activation_final_layer';
+for l=1:L
+    if mod(l,2) == 1 % (l mod 2) = (a mod m)
+        nn(l).Act = Act;
+        nn(l).dAct_ds = dAct_ds;
+    else % mod(l,2) == 0 even
+        nn(l).Act = Identity;
+        nn(l).dAct_ds = dIdentity_ds;
+    end
+end
 %regularization
-nn1_param(1).lambda = 0;
-nn1_param(2).lambda = 0;
-%make NN mdl
-nn1 = make_NN_model(L, nn1_param);
-
+for l=1:L
+    nn(l).lambda = 0;
+    nn(l).beta = 0;
+end
+%% initialize
+for l=1:L
+    [D_l_1, D_l] = size(nn(l).W);
+    if nn(L).Act( ones(1) ) == ones(1) %if Act ==  Identity
+        nn(l).W = nn_param(l).eps * randn([D_l_1, D_l] );
+        nn(l).b = nn_param(l).eps * randn([1, D_l] );
+        nn(l).Wmask = 1;
+        nn(l).bmask = 1;
+    else
+        nn(l).W = nn2_param(l).eps * randn([D_l_1, D_l] );
+        nn(l).b = nn2_param(l).eps * randn([1, D_l] );
+        nn(l).Wmask = 1;
+        nn(l).bmask = 0;
+    end
+end
+nn(1).F = @F;
+nn1 = nn;
 
 %%%%%%%%%%%%%%%
 %% make 2 hidden NN model
-% L=3; % 3 layer, 2 hidden layer
-% nn2_param = struct('Dim', cell(1,L), 'eps', cell(1,L) );
-% %dim of W and b
-% D_1 = 4;
-% D_2 = 2;
-% nn2_param(1).Dim = [D, D_1];
-% nn2_param(2).Dim = [D_1, D_2];
-% nn2_param(3).Dim = [D_2, D_out];
-% %scale of init W
-% eps_nn2 = 0.01;
-% for l=1:L
-%     nn2_param(l).eps =eps_nn2;
-% end
-% %activation funcs and F
-% for l=1:L-1
-%     nn2_param(l).Act = Act;
-%     nn2_param(l).dAct_ds = dAct_ds;
-% end
-% nn2_param(1).F = 'F_NO_activation_final_layer';
-% %regularization
-% for l=1:L
-%     nn2_param(l).lambda = 0;
-% end
-% %make NN mdl
-% nn2 = make_NN_model( L, nn2_param);
-% 
-% %% number of params
-% [ num_params_nn1 ] = number_of_params_NN( nn1 )
-% [ num_params_nn2 ] = number_of_params_NN( nn2 )
+L=4;
+nn_param = struct('eps', cell(1,L) );
+%scale of init W
+eps_nn = 0.01;
+for l=1:L
+    nn_param(l).eps =eps_nn;
+end
+%
+nn = struct('W', cell(1,L),'b', cell(1,L),'F', cell(1,L), 'Act',cell(1,L),'dAct_ds',cell(1,L),'lambda', cell(1,L), 'beta', cell(1,L));
+%dim of W and b
+D_1 = 3;
+D_2 = 1;
+D_3 = 4;
+D_4 = D_out;
+nn(1).W = zeros([D, D_1]);
+nn(2).W = zeros([D_1, D_2]);
+nn(3).W = zeros([D_2, D_3]);
+nn(4).W = zeros([D_3, D_4]);
+%activation funcs and F
+for l=1:L
+    if mod(l,2) == 1 % (l mod 2) = (a mod m)
+        nn(l).Act = Act;
+        nn(l).dAct_ds = dAct_ds;
+    else % mod(l,2) == 0 even
+        nn(l).Act = Identity;
+        nn(l).dAct_ds = dIdentity_ds;
+    end
+end
+%regularization
+for l=1:L
+    nn(l).lambda = 0;
+    nn(l).beta = 0;
+end
+%% initialize
+for l=1:L
+    [D_l_1, D_l] = size(nn(l).W);
+    if nn(L).Act( ones(1) ) == ones(1) %if Act ==  Identity
+        nn(l).W = nn_param(l).eps * randn([D_l_1, D_l] );
+        nn(l).b = nn_param(l).eps * randn([1, D_l] );
+        nn(l).Wmask = 1;
+        nn(l).bmask = 1;
+    else
+        nn(l).W = nn2_param(l).eps * randn([D_l_1, D_l] );
+        nn(l).b = nn2_param(l).eps * randn([1, D_l] );
+        nn(l).Wmask = 1;
+        nn(l).bmask = 0;
+    end
+end
+nn(1).F = @F;
+nn2 = nn;
+%% number of params
+[ num_params_nn1 ] = number_of_params_NN( nn1 )
+[ num_params_nn2 ] = number_of_params_NN( nn2 )
 
 %%%%%%%%%%%%%%%
 %% mdl params for training
@@ -106,13 +157,13 @@ sgd_errors_nn2 = 1; % record errors in SGS?
 [ step_size_params_nn2, nb_iterations_nn2, batchsize_nn2 ] = step_size_NN2( );
 %% train 1 hidden NN model
 tic
-%[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
+[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
 time_passed = toc;
 num_params_nn1
 [secs_nn1, minutes_nn1, hours_nn1, ~] = time_elapsed(nb_iterations_nn1, time_passed )
 %% train 2 hidden NN model
 tic
-[ nn2, iteration_errors_train_nn2, iteration_errors_test_nn2 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train,Y_train, nn2, nb_iterations_nn2,batchsize_nn2, X_test,Y_test, step_size_params_nn2, sgd_errors_nn2 );
+[ nn, iteration_errors_train_nn2, iteration_errors_test_nn2 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train,Y_train, nn, nb_iterations_nn2,batchsize_nn2, X_test,Y_test, step_size_params_nn2, sgd_errors_nn2 );
 time_passed = toc;
 num_params_nn2
 [secs_nn2, minutes_nn2, hours_nn2, ~] = time_elapsed(nb_iterations_nn2, time_passed )
