@@ -15,13 +15,15 @@ f_target(1,1).f = @f_1D_hard_code;
 sigpower = 'measured';
 powertype = 'linear';
 snr = 2;
-low_x = -1;
-high_x = 1;
+low_x = -2*pi;
+high_x = 2*pi;
 nb_samples = 100000; %100,000
 D = 1;
 [X,Y] = generate_data_from_function( f_target, snr, low_x,high_x, nb_samples, sigpower, powertype, D);
 D = size(X,2);
 D_out = size(Y,2);
 %%
-save('f8D_all_data_set_Id_interval')
+%data_file_name = 'f8D_all_data_set_Id_interval';
+data_file_name = 'f1D_cos';
+save(data_file_name)
 beep;

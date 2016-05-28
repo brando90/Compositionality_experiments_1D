@@ -6,6 +6,7 @@ for n = 1:nb_samples
     xn = X(n,:);
     fx = f_target(1,1).f( xn, f_target );
     yn = awgn(fx,snr,sigpower, powertype);
+    %yn = fx;
     Y(n,:) = yn;
 end
 end
