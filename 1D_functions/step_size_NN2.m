@@ -26,12 +26,12 @@ else
 end
 %% decay stuff
 for l=1:L
-    step.W(l).eta = 0.025;
+    step.W(l).eta = 0.00001;
     step.W(l).decay_rate = 1.25; %if 1 its not decaying then
     step.W(l).decay_frequency = 2000;
 end
 for l=1:L
-    step.b(l).eta = 0.025;
+    step.b(l).eta = 0.00001;
     step.b(l).decay_rate = 1.25; %if 1 its not decaying then
     step.b(l).decay_frequency = 2000;
 end

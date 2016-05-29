@@ -46,7 +46,7 @@ for l=1:L
 end
 %
 nn = struct('W', cell(1,L),'b', cell(1,L),'F', cell(1,L), 'Act',cell(1,L),'dAct_ds',cell(1,L),'lambda', cell(1,L), 'beta', cell(1,L));
-D_1 = 24;
+D_1 = 72;
 D_2 = D_out;
 nn(1).W = zeros([D, D_1]);
 nn(2).W = zeros([D_1, D_2]);
@@ -81,6 +81,7 @@ for l=1:L
     end
 end
 nn(1).F = @F;
+nn(1).msg = 'nn1';
 nn1 = nn;
 
 %%%%%%%%%%%%%%%
@@ -134,6 +135,7 @@ for l=1:L
     end
 end
 nn(1).F = @F;
+nn(1).msg = 'nn2';
 nn2 = nn;
 
 %% make 3 hidden NN model
@@ -190,6 +192,7 @@ for l=1:L
     end
 end
 nn(1).F = @F;
+nn(1).msg = 'nn3';
 nn3 = nn;
 
 %% number of params
