@@ -1,14 +1,12 @@
 function [ step, nb_iterations, batchsize ] = step_size_NN1( nn )
 L = size(nn,2);
 %% step-size
-step =  struct( 'W', cell(1,L) );
-%%
+step(1).print_error_to_screen = true;
 step(1).AdaGrad = false;
 step(1).Momentum = true;
 %% optimization method
 if step(1).Momentum
     for l=1:L
-        step.W = struct
         step.W(l).alpha = 0.9;
         step.W(l).v = zeros( size(nn(l).W) );
     end
