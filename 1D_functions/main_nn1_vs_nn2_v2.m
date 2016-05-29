@@ -20,14 +20,6 @@ X_train = X_train(1:N_train,:);
 Y_train = Y_train(1:N_train,:);
 X_test = X_test(1:N_test,:);
 Y_test = Y_test(1:N_test,:);
-%%
-gpu_on = 0;
-if gpu_on
-    X_train = gpuArray(X_train);
-    Y_train = gpuArray(Y_train);
-    X_test = gpuArray(X_test);
-    Y_test = gpuArray(Y_test);
-end
 %% Activation funcs
 run('./activation_funcs');
 %Act = relu_func;
@@ -40,10 +32,10 @@ lambda = 0;
 L=2;
 nn_params = struct('eps', cell(1,L) );
 for l=1:L
-    nn_params(l).eps = 0.1;
+    nn_params(l).eps = 0.01;
 end
 %%
-D_1 = 90;
+D_1 = 1000;
 D_2 = D_out;
 nn_params(1).W = zeros([D, D_1]);
 nn_params(2).W = zeros([D_1, D_2]);
@@ -128,6 +120,14 @@ sgd_errors_nn2 = 1; % record errors in SGS?
 %% mdl params for training
 sgd_errors_nn3 = 1; % record errors in SGS?
 [ step_size_params_nn3, nb_iterations_nn3, batchsize_nn3 ] = step_size_NN3( nn3);
+%% GPU
+if gpu_on
+    X_train = gpuArray(X_train);
+    Y_train = gpuArray(Y_train);
+    X_test = gpuArray(X_test);
+    Y_test = gpuArray(Y_test);
+    [nn1, step_size_params_nn1] = put_NN_in_GPU( nn );
+end
 %% train 1 hidden NN model
 tic
 [ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);

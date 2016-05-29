@@ -3,7 +3,7 @@ L = size(nn,2);
 %% step-size
 step(1).print_error_to_screen = true;
 step(1).AdaGrad = false;
-step(1).Momentum = true;
+step(1).Momentum = false;
 %% optimization method
 if step(1).Momentum
     for l=1:L
@@ -22,22 +22,22 @@ elseif step(1).AdaGrad
         step.b(l).G_b = zeros( size(nn(l).b) );
     end 
 else
-   error('unknown optimzation method')
+   %error('unknown optimzation method')
 end
 %% decay stuff
 for l=1:L
-    step.W(l).eta = 0.0001;
+    step.W(l).eta = 0.001;
     step.W(l).decay_rate = 1.0; %if 1 its not decaying then
     step.W(l).decay_frequency = 2000;
 end
 for l=1:L
-    step.b(l).eta = 0.0001;
+    step.b(l).eta = 0.001;
     step.b(l).decay_rate = 1.0; %if 1 its not decaying then
     step.b(l).decay_frequency = 2000;
 end
 %% nb_iterations
-nb_iterations = int64(2000);
-batchsize = 3000;
+nb_iterations = int64(4000);
+batchsize = 16;
 %% print iteration
 factor = 100;
 step.print_every_multiple = ceil(nb_iterations/factor);
