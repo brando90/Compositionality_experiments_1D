@@ -121,6 +121,7 @@ sgd_errors_nn2 = 1; % record errors in SGS?
 sgd_errors_nn3 = 1; % record errors in SGS?
 [ step_size_params_nn3, nb_iterations_nn3, batchsize_nn3 ] = step_size_NN3( nn3);
 %% GPU
+gpu_on = 0;
 if gpu_on
     X_train = gpuArray(X_train);
     Y_train = gpuArray(Y_train);
