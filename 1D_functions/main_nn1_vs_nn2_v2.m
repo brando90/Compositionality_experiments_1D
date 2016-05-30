@@ -22,10 +22,10 @@ X_test = X_test(1:N_test,:);
 Y_test = Y_test(1:N_test,:);
 %% Activation funcs
 run('./activation_funcs');
-%Act = relu_func;
-%dAct_ds = dRelu_ds;
-Act = sigmoid_func;
-dAct_ds = dSigmoid_ds;
+Act = relu_func;
+dAct_ds = dRelu_ds;
+% Act = sigmoid_func;
+% dAct_ds = dSigmoid_ds;
 lambda = 0;
 %%%%%%%%%%%%%%%
 %% make 1 hidden NN model
@@ -35,7 +35,7 @@ for l=1:L
     nn_params(l).eps = 0.01;
 end
 %%
-D_1 = 1000;
+D_1 = 256;
 D_2 = D_out;
 nn_params(1).W = zeros([D, D_1]);
 nn_params(2).W = zeros([D_1, D_2]);
@@ -127,17 +127,17 @@ if gpu_on
     Y_train = gpuArray(Y_train);
     X_test = gpuArray(X_test);
     Y_test = gpuArray(Y_test);
-    [nn1, step_size_params_nn1] = put_NN_in_GPU( nn );
+    [nn1, step_size_params_nn1] = put_NN_in_GPU( nn1 );
 end
 %% train 1 hidden NN model
 tic
-[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
+%[ nn1, iteration_errors_train_nn1, iteration_errors_test_nn1 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train, Y_train, nn1, nb_iterations_nn1, batchsize_nn1, X_test,Y_test, step_size_params_nn1, sgd_errors_nn1);
 time_passed = toc;
 num_params_nn1
 [secs_nn1, minutes_nn1, hours_nn1, ~] = time_elapsed(nb_iterations_nn1, time_passed )
 %% train 2 hidden NN model
 tic
-%[ nn, iteration_errors_train_nn2, iteration_errors_test_nn2 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train,Y_train, nn2, nb_iterations_nn2,batchsize_nn2, X_test,Y_test, step_size_params_nn2, sgd_errors_nn2 );
+[ nn, iteration_errors_train_nn2, iteration_errors_test_nn2 ] = multilayer_learn_HModel_explicit_b_MiniBatchSGD( X_train,Y_train, nn2, nb_iterations_nn2,batchsize_nn2, X_test,Y_test, step_size_params_nn2, sgd_errors_nn2 );
 time_passed = toc;
 num_params_nn2
 [secs_nn2, minutes_nn2, hours_nn2, ~] = time_elapsed(nb_iterations_nn2, time_passed )
