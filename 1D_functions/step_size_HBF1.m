@@ -11,7 +11,7 @@ if step(1).Momentum
         step.W(l).v = zeros( size(hbf(l).W) );
     end
     for l=1:L
-        step.Std(l).alpha = 0.9;
+        step.Std(l).alpha = 0.95;
         step.Std(l).v = zeros( size(hbf(l).beta) );
     end
 elseif step(1).AdaGrad
@@ -26,19 +26,19 @@ else
 end
 %% decay stuff
 for l=1:L
-    step.W(l).eta = 0.001;
+    step.W(l).eta = 0.01;
     step.W(l).decay_rate = 1.1; %if 1 its not decaying then
-    step.W(l).decay_frequency = 2000;
+    step.W(l).decay_frequency = 2500;
 end
 for l=1:L
-    step.Std(l).eta = 0.001;
+    step.Std(l).eta = 50;
     step.Std(l).decay_rate = 1.1; %if 1 its not decaying then
-    step.Std(l).decay_frequency = 2000;
+    step.Std(l).decay_frequency = 2500;
 end
 %% nb_iterations
-nb_iterations = int64(5000);
+nb_iterations = int64(6000);
 batchsize = 100;
 %% print iteration
-factor = 5;
+factor = 60;
 step.print_every_multiple = ceil(nb_iterations/factor);
 end

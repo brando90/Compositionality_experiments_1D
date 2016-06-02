@@ -1,25 +1,44 @@
-function [ step_size_params, nb_iterations, batchsize ] = step_size_HBF2( )
-L = 3;
+function [ step, nb_iterations, batchsize ] = step_size_HBF2( hbf )
+L = size(hbf,2);
 %% step-size
-step_size_params =  struct( 'AdaGrad', cell(1,1), 'Momentum', cell(1,1), ...
-    'Decaying', cell(1,1), 'step_size', cell(1,1), ...
-    'print_error_to_screen', cell(1,1) );
-step_size_params.print_error_to_screen = 1;
-%% constant step size
+step(1).print_error_to_screen = true;
+step(1).AdaGrad = false;
+step(1).Momentum = true;
+%% optimization method
+if step(1).Momentum
+    for l=1:L
+        step.W(l).alpha = 0.9;
+        step.W(l).v = zeros( size(hbf(l).W) );
+    end
+    for l=1:L
+        step.Std(l).alpha = 0.9;
+        step.Std(l).v = zeros( size(hbf(l).beta) );
+    end
+elseif step(1).AdaGrad
+    for l=1:L
+        step.W(l).G_w  = zeros( size(hbf(l).W) );
+    end
+    for l=1:L
+        step.Std(l).G_b = zeros( size(hbf(l).beta) );
+    end 
+else
+   %error('unknown optimzation method')
+end
+%% decay stuff
 for l=1:L
-    step_size_params.W(l).eta = 0.025;
-    step_size_params.W(l).decay_rate = 1.25; %if 1 its not decaying then
-    step_size_params.W(l).decay_frequency = 2000;
+    step.W(l).eta = 0.01;
+    step.W(l).decay_rate = 1.1; %if 1 its not decaying then
+    step.W(l).decay_frequency = 2500;
 end
 for l=1:L
-    step_size_params.Std(l).eta = 0.025;
-    step_size_params.Std(l).decay_rate = 1.25; %if 1 its not decaying then
-    step_size_params.Std(l).decay_frequency = 2000;
+    step.Std(l).eta = 0.1;
+    step.Std(l).decay_rate = 1.1; %if 1 its not decaying then
+    step.Std(l).decay_frequency = 2500;
 end
 %% nb_iterations
-nb_iterations = int64(10000);
-batchsize = 4;
+nb_iterations = int64(6000);
+batchsize = 100;
 %% print iteration
-factor = 100;
-step_size_params.print_every_multiple = ceil(nb_iterations/factor);
+factor = 60;
+step.print_every_multiple = ceil(nb_iterations/factor);
 end
