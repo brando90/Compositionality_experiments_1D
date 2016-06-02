@@ -12,32 +12,32 @@ if step(1).Momentum
     end
     for l=1:L
         step.Std(l).alpha = 0.9;
-        step.Std(l).v = zeros( size(hbf(l).Std) );
+        step.Std(l).v = zeros( size(hbf(l).beta) );
     end
 elseif step(1).AdaGrad
     for l=1:L
         step.W(l).G_w  = zeros( size(hbf(l).W) );
     end
     for l=1:L
-        step.Std(l).G_b = zeros( size(hbf(l).Std) );
+        step.Std(l).G_b = zeros( size(hbf(l).beta) );
     end 
 else
    %error('unknown optimzation method')
 end
 %% decay stuff
 for l=1:L
-    step.W(l).eta = 0.0001;
+    step.W(l).eta = 0.001;
     step.W(l).decay_rate = 1.1; %if 1 its not decaying then
     step.W(l).decay_frequency = 2000;
 end
 for l=1:L
-    step.Std(l).eta = 0.0001;
+    step.Std(l).eta = 0.001;
     step.Std(l).decay_rate = 1.1; %if 1 its not decaying then
     step.Std(l).decay_frequency = 2000;
 end
 %% nb_iterations
-nb_iterations = int64(10000);
-batchsize = 3000;
+nb_iterations = int64(5000);
+batchsize = 100;
 %% print iteration
 factor = 5;
 step.print_every_multiple = ceil(nb_iterations/factor);

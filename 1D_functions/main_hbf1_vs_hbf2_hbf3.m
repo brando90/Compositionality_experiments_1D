@@ -131,7 +131,7 @@ end
 tic
 [ hbf1, iteration_errors_train_hbf1, iteration_errors_test_hbf1 ] = special_multilayer_learn_HBF_MiniBatchSGD( X_train, Y_train, hbf1, nb_iterations_hbf1, batchsize_hbf1, X_test,Y_test, step_size_params_hbf1, sgd_errors_hbf1);
 time_passed = toc;
-num_params_hbf1
+%num_params_hbf1
 [secs_hbf1, minutes_hbf1, hours_hbf1, ~] = time_elapsed(nb_iterations_hbf1, time_passed )
 %% train 2 hidden NN model
 % tic

@@ -27,12 +27,12 @@ for l=1:L
         hbf(l).W = hbf_params(l).eps * randn([D_l_1, D_l] );
         hbf(l).b = hbf_params(l).eps * randn([1, D_l] );
         hbf(l).Wmask = 1;
-        hbf(l).bmask = 1;
+        hbf(l).Stdmask = 1;
     else
         hbf(l).W = hbf_params(l).eps * randn([D_l_1, D_l] );
         hbf(l).b = 0;
         hbf(l).Wmask = 1;
-        hbf(l).bmask = 0;
+        hbf(l).Stdmask = 0;
     end
 end
 hbf(1).F = @F;
