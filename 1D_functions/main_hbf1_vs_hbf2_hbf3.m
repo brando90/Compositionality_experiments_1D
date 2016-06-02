@@ -78,7 +78,7 @@ hbf_params(4).W = zeros([D_3, D_4]);
 %%
 for l=1:L
     hbf_params(l).lambda = 0;
-    hbf_params(l).beta = 0.001;
+    hbf_params(l).beta = 0.0001;
     %a = 0.0001;
     %b = 0.00015;
     %beta = 0.01;
@@ -132,7 +132,7 @@ sgd_errors_hbf1 = 1; % record errors in SGS?
 [ step_size_params_hbf1, nb_iterations_hbf1, batchsize_hbf1 ] = step_size_HBF1( hbf1 );
 %% mdl params for training
 sgd_errors_hbf2 = 1; % record errors in SGS?
-[ step_size_params_hbf2, nb_iterations_hbf2, batchsize_hbf2 ] = step_size_HBF1( hbf2 );
+[ step_size_params_hbf2, nb_iterations_hbf2, batchsize_hbf2 ] = step_size_HBF2( hbf2 );
 % %% mdl params for training
 % sgd_errors_nn3 = 1; % record errors in SGS?
 % [ step_size_params_nn3, nb_iterations_nn3, batchsize_nn3 ] = step_size_NN3( nn3);

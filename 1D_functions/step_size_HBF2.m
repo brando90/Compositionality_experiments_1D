@@ -26,19 +26,24 @@ else
 end
 %% decay stuff
 for l=1:L
-    step.W(l).eta = 0.01;
+    %step.W(l).eta = 10000;
     step.W(l).decay_rate = 1.1; %if 1 its not decaying then
     step.W(l).decay_frequency = 2500;
+    if mod(l,2) == 1
+        step.W(l).eta = 0.9;
+    else
+        step.W(l).eta = 10;
+    end
 end
 for l=1:L
-    step.Std(l).eta = 0.1;
+    step.Std(l).eta = 10;
     step.Std(l).decay_rate = 1.1; %if 1 its not decaying then
     step.Std(l).decay_frequency = 2500;
 end
 %% nb_iterations
-nb_iterations = int64(6000);
-batchsize = 100;
+nb_iterations = int64(8000);
+batchsize = 500;
 %% print iteration
-factor = 60;
+factor = 600;
 step.print_every_multiple = ceil(nb_iterations/factor);
 end
