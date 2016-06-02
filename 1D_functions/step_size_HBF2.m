@@ -2,8 +2,8 @@ function [ step, nb_iterations, batchsize ] = step_size_HBF2( hbf )
 L = size(hbf,2);
 %% step-size
 step(1).print_error_to_screen = true;
-step(1).AdaGrad = false;
-step(1).Momentum = true;
+step(1).AdaGrad = true;
+step(1).Momentum = false;
 %% optimization method
 if step(1).Momentum
     for l=1:L
@@ -16,34 +16,36 @@ if step(1).Momentum
     end
 elseif step(1).AdaGrad
     for l=1:L
+        step.W(l).G_w_eta = 10;
         step.W(l).G_w  = zeros( size(hbf(l).W) );
     end
     for l=1:L
-        step.Std(l).G_b = zeros( size(hbf(l).beta) );
+        step.Std(l).G_Std_eta = 10;
+        step.Std(l).G_Std = zeros( size(hbf(l).beta) );
     end 
 else
    %error('unknown optimzation method')
 end
 %% decay stuff
 for l=1:L
-    %step.W(l).eta = 10000;
+    step.W(l).eta = 10;
     step.W(l).decay_rate = 1.1; %if 1 its not decaying then
-    step.W(l).decay_frequency = 2500;
-    if mod(l,2) == 1
-        step.W(l).eta = 0.9;
-    else
-        step.W(l).eta = 10;
-    end
+    step.W(l).decay_frequency = 3500;
+%     if mod(l,2) == 1
+%         step.W(l).eta = 0.000009;
+%     else
+%         step.W(l).eta = 10;
+%     end
 end
 for l=1:L
-    step.Std(l).eta = 10;
+    step.Std(l).eta = 100;
     step.Std(l).decay_rate = 1.1; %if 1 its not decaying then
     step.Std(l).decay_frequency = 2500;
 end
 %% nb_iterations
-nb_iterations = int64(8000);
-batchsize = 500;
+nb_iterations = int64(6000);
+batchsize = 1000;
 %% print iteration
-factor = 600;
+factor = 60;
 step.print_every_multiple = ceil(nb_iterations/factor);
 end
