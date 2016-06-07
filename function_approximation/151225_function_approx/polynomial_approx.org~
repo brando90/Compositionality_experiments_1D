@@ -1,0 +1,14 @@
+Here is a possible polynomial in 4 variables x= (x_1,...x_4)
+
+w_1 is also a vector with 6 components w_1= 1/2, -1/3, +0.25, -1
+
+w_2 is something similar
+
+
+
+Polynomial is  (0.3(\scal(w_1}{x} + scal{w_2}{x})^2 - 0.75
+(\scal(w_3}{x} + scal{w_4}{x})^2)^2
+
+this is sparse not in monomials but in terms like \scal(w_1}{x}
+
+this is a quadratic function on a binary tree
