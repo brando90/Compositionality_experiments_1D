@@ -4,8 +4,8 @@ function net = addCustom_hbf_norm_layer(net, fwfun, bwfun)
 %   layer to the network NET using FWDFUN for forward pass and BWDFUN for
 %   a backward pass.
 
-layer.name = 'hbf_norm' ;
 layer.type = 'custom' ;
+layer.name = 'hbf_norm' ;
 layer.forward = @forward ;
 layer.backward = @backward ;
 [W, S] = init_hbf_weights(); %TODO inilization
