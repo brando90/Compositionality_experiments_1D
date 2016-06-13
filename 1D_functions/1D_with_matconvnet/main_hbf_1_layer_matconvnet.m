@@ -19,23 +19,26 @@ imdb.images.label = Y_test;
 %% prepare parameters
 L1=3;
 
-w1 = randn(1,1,1,L1); %1st layer weights
+%TODO
+w1 = randn(D1, L1); %1st layer weights
 s1 = 0.5; %1st layer std
 
+%TODO
 w2 = randn(1,1,1,L1); %2nd layer weights
 b2 = randn(1,1,1,L1); %2nd layer biases
 
+%TODO
 G1 = ones(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN scale, one per  dimension
 B1 = zeros(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN shift, one per  dimension
 bn_eps = 1e-4;
-%% make CNN layers: conv, BN, relu, conv, pdist, l2-loss
+%% make HBF
 net.layers = {} ;
 addCustom_hbf_norm_layer(net, @cutom_hbf_norm_forward, @cutom_hbf_norm_backward);
 net.layers{end+1} = struct('type', 'custom', ...
                            'name', 'hbf_norm1',...
                            'forward', add_custom_hbf_norm_forward(@cutom_hbf_norm_forward), ...
                            'backward', add_custom_hbf_norm_backward(@cutom_hbf_norm_backward), ...
-                           'weights', {w1,s1}, ... %TODO
+                           'weights', {w1,s1}, ...
                            'learningRate', [0.9 0.9], ... %TODO
                            'weightDecay', [1 1]) ; %TODO
 net.layers{end+1} = struct('type', 'bnorm', ...
@@ -58,21 +61,17 @@ net.layers{end+1} = struct('type', 'custom', ...
                            'name', 'L2_loss', ...
                            'forward', get_custom_l2_loss_forward(@l2LossForward), ...
                            'backward', get_custom_l2_loss_backward(@l2LossBackward), ...
-                           'class', imdb.images.label,
-                           ) ;
-%% add L2-loss                   
-net = addCustomLossLayer(net, @l2LossForward, @l2LossBackward) ;
-net.layers{end}.class = Y_test; % its the test set
+                           'class', imdb.images.label) ;             
 net = vl_simplenn_tidy(net) ;
 %% prepare train options
-trainOpts.expDir = 'results/' ; %save results/trained cnn
-trainOpts.gpus = [] ;
+trainOpts.expDir = 'results/' ; % TODO %save results/trained cnn
+trainOpts.gpus = [] ; % TODO 
 trainOpts.batchSize = 2 ;
 trainOpts.learningRate = 0.02 ; %TODO: why is this learning rate here?
-trainOpts.plotDiagnostics = false ;
+trainOpts.plotDiagnostics = false ; % TODO 
 %trainOpts.plotDiagnostics = true ; % Uncomment to plot diagnostics
 trainOpts.numEpochs = 50 ; % number of training epochs
-trainOpts.errorFunction = 'none' ;
+trainOpts.errorFunction = 'none' ; % TODO 
 %% CNN TRAIN
 res = vl_simplenn(net, X_train, 1);
 for epoch=1:trainOpts.numEpochs
