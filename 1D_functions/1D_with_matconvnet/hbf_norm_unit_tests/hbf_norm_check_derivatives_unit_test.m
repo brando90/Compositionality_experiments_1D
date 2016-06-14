@@ -10,6 +10,8 @@ y = cutom_hbf_norm_forward( X,W,S ); % forward mode (get output)
 proj_vec = randn(size(y), 'single'); % projection tensor
 y = cutom_hbf_norm_backward( X,W,S );
 %%
+
+
 % Create a random input image batch
 x = randn(10, 10, 1, 2, 'single') ;
 % Forward mode: evaluate the conv follwed by ReLU
