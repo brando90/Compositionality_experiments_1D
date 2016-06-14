@@ -12,7 +12,13 @@ dx = (-2*S)*(XP - WP); % (M x D^(l-1)) = (M x D^(l-1)) - (M x D^(l)) x (D^(l) x 
 dzdx = zeros(1,1,D_l_1,M); % TODO add singleton dim
 dzdx(1,1,:,:) = dx';
 %% TODO
-dzdw = nan;
+D_l = size(P,1);
+dzdw = zeros(1,1,D_l_1,D_l);
+for d_l=1:D_l
+    for d_l_1=1:D_l_1
+        dzdw(1,1,d_l_1,d_l) = 2*S*(P(d_l,:)*X(:,d_l_1) - W(d_l_1,d_l)*sum(P(d_l,:)));
+    end
+end
 %% TODO
 dzds = nan;
 end

@@ -21,12 +21,12 @@ if print
 end
 %%%Z = proj(X,P) computes the projection Z of tensor X onto P.
 %% check numerically dx
-print_err_x = print;
-func = @(ARG_X) proj(p, cutom_hbf_norm_forward( ARG_X,W,S  ) ) ;
-[err_x, dx_numerical, dx] = checkDerivativeNumerically(func, X, dzdx, print_err_x) ;
-err_x_squeeze = squeeze(err_x)
-dx_numerical_squeeze = squeeze(dx_numerical)
-dx_squeeze = squeeze(dx)
+% print_err_x = print;
+% func = @(ARG_X) proj(p, cutom_hbf_norm_forward( ARG_X,W,S  ) ) ;
+% [err_x, dx_numerical, dx] = checkDerivativeNumerically(func, X, dzdx, print_err_x) ;
+% err_x_squeeze = squeeze(err_x)
+% dx_numerical_squeeze = squeeze(dx_numerical)
+% dx_squeeze = squeeze(dx)
 %% check numerically dw
 print_err_w = 0;
 func = @(ARG_W) proj(p, cutom_hbf_norm_forward( X,ARG_W,S  ) ) ;
