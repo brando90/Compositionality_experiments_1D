@@ -6,8 +6,12 @@ P = squeeze(p); % (D^(l) x M)
 X = squeeze(X)'; % (M x D^(l-1))
 p_sum = sum(P,1)'; % (M x 1) = (1 x M)'= sum(D^(l) x M)'
 XP = bsxfun(@times, X, p_sum); % (M x D^(l-1)) =  (M x D^(l-1)) .x (M x 1)
-dx = (-2*S)*(XP - W' * P); % (M x D^(l-1)) = (M x D^(l-1)) - (M x D^(l)) x (D^(l) x D^(l-1))
+WP = (W * P)';
+dx = (-2*S)*(XP - WP); % (M x D^(l-1)) = (M x D^(l-1)) - (M x D^(l)) x (D^(l) x D^(l-1))
 [D_l_1, M] = size(dx);
 dzdx = zeros(1,1,D_l_1,M); % TODO add singleton dim
 dzdx(1,1,:,:) = dx;
+%% TODO
+dzdw = nan;
+dzds = nan;
 end
