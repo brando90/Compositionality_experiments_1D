@@ -1,4 +1,4 @@
-function err = checkDerivativeNumerically(f, x, dx)
+function [err, dx_numerical, dx] = checkDerivativeNumerically(f, x, dx, print_err)
 %CHECKDERIVATIVENUMERICALLY  Check a layer's deriviative numerically
 %   ERR = CHECKDERIVATIVENUMERICALLY(F, X, DX) takes the scalar function F,
 %   its tensor input X and its derivative DX at X and compares DX to
@@ -21,21 +21,18 @@ for n = 1:size(x,4)
     end
   end
 end
-%%
-% dx_numerical_size = size(dx_numerical)
-% dx_size = size(dx)
 err = dx_numerical - dx ;
-dx_numerical_squeeze = squeeze(dx_numerical)
-dx__squeeze = squeeze(dx)
-err__squeeze = squeeze(err)
 
-range = max(abs(dx(:))) * [-1 1] ;
-T = size(x,4) ;
-for t = 1:size(x,4)
-  subplot(T,3,1+(t-1)*3) ; bar3(dx(:,:,1,t)) ; zlim(range) ;
-  title(sprintf('dx(:,:,1,%d) (given)',t)) ;
-  subplot(T,3,2+(t-1)*3) ; bar3(dx_numerical(:,:,1,t)) ; zlim(range) ;
-  title(sprintf('dx(:,:,1,%d) (numerical)',t)) ;
-  subplot(T,3,3+(t-1)*3) ; bar3(abs(err(:,:,1,t))) ; zlim(range) ;
-  title('absolute difference') ;
+if print_err
+    range = max(abs(dx(:))) * [-1 1] ;
+    T = size(x,4) ;
+    for t = 1:size(x,4)
+      subplot(T,3,1+(t-1)*3) ; bar3(dx(:,:,1,t)) ; zlim(range) ;
+      title(sprintf('dx(:,:,1,%d) (given)',t)) ;
+      subplot(T,3,2+(t-1)*3) ; bar3(dx_numerical(:,:,1,t)) ; zlim(range) ;
+      title(sprintf('dx(:,:,1,%d) (numerical)',t)) ;
+      subplot(T,3,3+(t-1)*3) ; bar3(abs(err(:,:,1,t))) ; zlim(range) ;
+      title('absolute difference') ;
+    end
+end
 end
