@@ -7,7 +7,7 @@ function err = checkDerivativeNumerically(f, x, dx)
 
 y = f(x) ;
 dx_numerical = zeros(size(dx), 'single') ;
-delta = 0.001 ;
+delta = 0.0001 ;
 
 for n = 1:size(x,4)
   for k = 1:size(x,3)
@@ -22,7 +22,12 @@ for n = 1:size(x,4)
   end
 end
 %%
+% dx_numerical_size = size(dx_numerical)
+% dx_size = size(dx)
 err = dx_numerical - dx ;
+dx_numerical_squeeze = squeeze(dx_numerical)
+dx__squeeze = squeeze(dx)
+err__squeeze = squeeze(err)
 
 range = max(abs(dx(:))) * [-1 1] ;
 T = size(x,4) ;
