@@ -11,23 +11,16 @@ dx = (-2*S)*(XP - WP); % (M x D^(l-1)) = (M x D^(l-1)) - (M x D^(l)) x (D^(l) x 
 [M, D_l_1] = size(dx);
 dzdx = zeros(1,1,D_l_1,M); % TODO add singleton dim
 dzdx(1,1,:,:) = dx';
-%% TODO
-D_l = size(P,1);
-dzdw = zeros(1,1,D_l_1,D_l);
-for d_l=1:D_l
-    for d_l_1=1:D_l_1
-        dzdw(1,1,d_l_1,d_l) = 2*S*(P(d_l,:)*X(:,d_l_1) - W(d_l_1,d_l)*sum(P(d_l,:)));
-    end
-end
-dzdw_loops = squeeze(dzdw)
 %%
-PP = reshape(P,[1, flip(size(P)) ]); % (1 x M x D^(l))
-T_imj= bsxfun(@times,  PP, X' ); % (D^(l-1) x M x D^(l)) = (1 x M x D^(l)) .* (D^(l-1) x M)
+D_l = size(P,1);
+P = P'; % (M x D^(l))
+PP = reshape(P,[1, size(P) ]); % (1 x M x D^(l))
+T_imj= bsxfun(@times, PP, X' ); % (D^(l-1) x M x D^(l)) = (1 x M x D^(l)) .* (D^(l-1) x M x 1) = (1 x M x D^(l)) .* (D^(l-1) x M)
 PX = squeeze( sum(T_imj,2) ); % (D^(l-1) x D^(l))
-PW = bsxfun(@times, W, sum(P,2)'); % (D^(l-1) x D^(l)) = (D^(l-1) x D^(l)) .* (1 x D^(l))
-dzdw_vec = 2*S*(PX - PW) % (D^(l-1) x D^(l))
-err = dzdw_loops - dzdw_vec
-%bsxfun(@times,  reshape(P,[1, flip(size(P)) ]), X' ); % () .x ()
+PW = bsxfun(@times, W, sum(P,1)); % (D^(l-1) x D^(l)) = (D^(l-1) x D^(l)) .* (1 x D^(l))
+dw = 2*S*(PX - PW); % (D^(l-1) x D^(l))
+dzdw = zeros(1,1,D_l_1,D_l); % TODO add singleton dim
+dzdw(1,1,:,:) = dw;
 %% TODO
 dzds = nan;
 end
