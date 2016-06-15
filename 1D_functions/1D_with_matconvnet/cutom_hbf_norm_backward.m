@@ -19,6 +19,15 @@ for d_l=1:D_l
         dzdw(1,1,d_l_1,d_l) = 2*S*(P(d_l,:)*X(:,d_l_1) - W(d_l_1,d_l)*sum(P(d_l,:)));
     end
 end
+dzdw1 = dzdw
+%%
+PP = reshape(P,[1, flip(size(P)) ]); % (1 x M x D^(l))
+T_imj= bsxfun(@times,  PP, X' ); % (D^(l-1) x M x D^(l)) = (1 x M x D^(l)) .* (D^(l-1) x M)
+PX = sum(T_imj,2);
+PW = bsxfun(@times, W, sum(P,2)'); % (D^(l-1) x D^(l)) = (D^(l-1) x D^(l)) .* (1 x D^(l))
+dzdw2 = 2*S*(PX - PW)
+err = dzdw1 - dzdw2
+%bsxfun(@times,  reshape(P,[1, flip(size(P)) ]), X' ); % () .x ()
 %% TODO
 dzds = nan;
 end
