@@ -7,7 +7,7 @@ D_l_1 = 2;
 D_l = 3;
 M = 4;
 X = randn(1,1,D_l_1,M);
-W = randn(D_l_1,D_l); 
+W = randn(1,1,D_l_1,D_l); 
 S = randn(1);
 %% compute block -s|| x - t ||^2
 y = cutom_hbf_norm_forward( X,W,S ); % forward mode (get output)

@@ -8,8 +8,9 @@ function [err, dx_numerical, dx] = checkDerivativeNumerically(f, x, dx, print_er
 y = f(x) ;
 dx_numerical = zeros(size(dx), 'single') ;
 delta = 0.0001 ;
-size_dx_numerical = size(dx_numerical)
-size_dx = size(dx)
+size_dx_numerical_1 = size(dx_numerical)
+size_dx_1 = size(dx)
+size_x_1 = size(x)
 
 for n = 1:size(x,4)
   for k = 1:size(x,3)
