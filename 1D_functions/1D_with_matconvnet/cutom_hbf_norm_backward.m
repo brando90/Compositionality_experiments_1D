@@ -26,6 +26,7 @@ dzdw(1,1,:,:) = dw;
 % W = squeeze(W);% ( D^(l-1) x D^(l) )
 % WW = sum(W.^2, 1); % ( 1 x D^(l)= sum( (D^(l-1) x D^(l)), 1 )
 % XX = sum(A.^2, 2); % (M x 1) = sum( (M x D^(l-1)), 2 )
-% Delta_tilde = 2*(A*W) - bsxfun(@plus, WW, XX) ;
+%%% -|x-w|^2 = 2<x,w> - (|x|^2 + |w|^2) = - (|x|^2 + |w|^2) - 2<x,w>)
+%Delta_tilde = 2*(A*W) - bsxfun(@plus, WW, XX) ; % (M x D^(l)) - (M x D^(l)) = (M x D^(l-1)) * (D^(l-1) x D^(l)) - (M x D^(l))
 dzds = sum( Delta_tilde(:) .* P(:) );
 end

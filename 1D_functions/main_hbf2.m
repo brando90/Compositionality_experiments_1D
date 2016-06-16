@@ -1,5 +1,5 @@
 restoredefaultpath;clear;clc;clear;clc;
-fprintf('NN1 vs NN2');
+fprintf('HBF2');
 %% load multilayer libraries
 folderName = fullfile('../../../hbf_research_ml_model_library/1D_special_HBF_activation_unit');
 p = genpath(folderName);
