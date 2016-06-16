@@ -4,7 +4,9 @@ forward_function = @forward;
   function res_ =  forward(layer, res, res_)
     % cutom_hbf_norm_forward( X,W,S )
     W = layer.weights{1};
-    S = layer.weights{2};
-    res_.x = fwfun(res.x, W,S ) ;
+    S = layer.weights{2}; 
+    [z, Delta_tilde] = fwfun(res.x, W,S ) ;
+    res_.x = z;
+    res_.Delta_tilde = Delta_tilde;
   end
 end

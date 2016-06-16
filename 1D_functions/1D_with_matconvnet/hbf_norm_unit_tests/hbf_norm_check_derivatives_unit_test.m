@@ -10,9 +10,9 @@ X = randn(1,1,D_l_1,M);
 W = randn(1,1,D_l_1,D_l); 
 S = randn(1);
 %% compute block -s|| x - t ||^2
-y = cutom_hbf_norm_forward( X,W,S ); % forward mode (get output)
+[y, Delta_tilde] = cutom_hbf_norm_forward( X,W,S ); % forward mode (get output)
 p = randn(size(y), 'single'); % projection tensor
-[dzdx, dzdw, dzds] = cutom_hbf_norm_backward( X,W,S,p );
+[dzdx, dzdw, dzds] = cutom_hbf_norm_backward( X,W,S,Delta_tilde,p );
 %% Check the derivative numerically
 print = 0;
 if print
@@ -21,12 +21,12 @@ if print
 end
 %%%Z = proj(X,P) computes the projection Z of tensor X onto P.
 %% check numerically dx
-% print_err_x = print;
-% func = @(ARG_X) proj(p, cutom_hbf_norm_forward( ARG_X,W,S  ) ) ;
-% [err_x, dx_numerical, dx] = checkDerivativeNumerically(func, X, dzdx, print_err_x) ;
-% err_x_squeeze = squeeze(err_x)
-% dx_numerical_squeeze = squeeze(dx_numerical)
-% dx_squeeze = squeeze(dx)
+print_err_x = print;
+func = @(ARG_X) proj(p, cutom_hbf_norm_forward( ARG_X,W,S  ) ) ;
+[err_x, dx_numerical, dx] = checkDerivativeNumerically(func, X, dzdx, print_err_x) ;
+err_x_squeeze = squeeze(err_x)
+dx_numerical_squeeze = squeeze(dx_numerical)
+dx_squeeze = squeeze(dx)
 %% check numerically dw
 print_err_w = 0;
 func = @(ARG_W) proj(p, cutom_hbf_norm_forward( X,ARG_W,S  ) ) ;

@@ -1,4 +1,4 @@
-function [ z ] = cutom_hbf_norm_forward( X,W,S )
+function [ z, Delta_tilde ] = cutom_hbf_norm_forward( X,W,S )
 % computes pairwise -S|| x -  W||^2
 A = squeeze(X)';% ( M x D^(l-1) )
 W = squeeze(W);% ( D^(l-1) x D^(l) )
