@@ -4,11 +4,9 @@ backward_function = @backward;
   function res = backward(layer, res, res_)
     W = layer.weights{1};
     S = layer.weights{2};
-    Delta_tilde = res.Delta_tilde;
-    p = res_.dzdx;
-    [ dzdx, dzdw, dzds ] = bwfun(res.x,W,S,Delta_tilde, p) ;
+    [ dzdx, dzdw, dzds ] = bwfun(res.x,W,S,res_.Delta_tilde, res_.dzdx) ;
     res.dzdx = dzdx;
     res.dzdw = dzdw;
-    res.dzdx = dzds;
+    res.dzds = dzds;
   end
 end

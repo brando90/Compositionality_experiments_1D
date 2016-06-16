@@ -22,5 +22,10 @@ dw = 2*S*(PX - PW); % (D^(l-1) x D^(l))
 dzdw = zeros(1,1,D_l_1,D_l); % TODO add singleton dim
 dzdw(1,1,:,:) = dw;
 %% compute dzds
-dzds = sum( Delta_tilde(:) .* p(:) );
+% A = squeeze(X)';% ( M x D^(l-1) )
+% W = squeeze(W);% ( D^(l-1) x D^(l) )
+% WW = sum(W.^2, 1); % ( 1 x D^(l)= sum( (D^(l-1) x D^(l)), 1 )
+% XX = sum(A.^2, 2); % (M x 1) = sum( (M x D^(l-1)), 2 )
+% Delta_tilde = 2*(A*W) - bsxfun(@plus, WW, XX) ;
+dzds = sum( Delta_tilde(:) .* P(:) );
 end
