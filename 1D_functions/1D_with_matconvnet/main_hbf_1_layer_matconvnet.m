@@ -6,7 +6,7 @@ load(data_set);
 %% make train/test data set
 N_train = 60000;
 N_test = 60000;
-imbd = make_1D_data_matconvnet_format( X_train, X_train, X_test, Y_test );
+imdb = make_1D_data_matconvnet_format( N_train, N_test, X_train, X_train, X_test, Y_test );
 %% prepare parameters
 L1=3;
 D1=1;
@@ -19,9 +19,8 @@ bn_eps = 1e-4;
 %% learning rate
 eta_w1 = 0.9;
 eta_s1 = 0.9;
-eta_G1 = 0.9;
-eta_B1 = 0.9;
-eta_G1 = 0.9;
+%eta_B1 = 0.9;
+%eta_G1 = 0.9;
 %% weight decay
 decay_w1 = 1; %TODO what is this?
 decay_s1 = 1; %TODO what is this?
