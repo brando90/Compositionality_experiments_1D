@@ -10,9 +10,9 @@ imdb = make_1D_data_matconvnet_format( N_train, N_test, X_train, X_train, X_test
 %% prepare parameters
 L1=3;
 D1=1;
-w1 = randn(1,1, D1,L1); % D
+w1 = randn(D1,L1); % D
 s1 = 0.5; %1st layer std
-c1 = randn(1, L1); %1st layer coeffs
+c1 = randn(1,1,1,L1); %1st layer coeffs
 G1 = ones(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN scale, one per  dimension
 B1 = zeros(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN shift, one per  dimension
 bn_eps = 1e-4;
@@ -67,7 +67,7 @@ trainOpts.plotDiagnostics = false ; % TODO
 trainOpts.numEpochs = 50 ; % number of training epochs
 trainOpts.errorFunction = 'none' ; % TODO 
 %% CNN TRAIN
-res = vl_simplenn(net, X_train, 1);
+res = vl_simplenn(net, imdb.images.data(1,1,1,1:N_train), 1);
 for epoch=1:trainOpts.numEpochs
     %% forward pass and compute derivatives
     projection = 1;

@@ -1,4 +1,4 @@
-%%
+%% hbf_norm Unit test
 folderName = fullfile('..');
 p = genpath(folderName);
 addpath(p);
@@ -7,7 +7,7 @@ D_l_1 = 2;
 D_l = 3;
 M = 4;
 X = randn(1,1,D_l_1,M);
-W = randn(1,1,D_l_1,D_l); 
+W = randn(D_l_1,D_l); 
 S = randn(1);
 %% compute block -s|| x - t ||^2
 [y, Delta_tilde] = cutom_hbf_norm_forward( X,W,S ); % forward mode (get output)
@@ -41,16 +41,3 @@ func = @(ARG_S) proj(p, cutom_hbf_norm_forward( X,W,ARG_S ) ) ;
 err_s_squeeze = squeeze(err_s)
 ds_numerical_squeeze = squeeze(ds_numerical)
 ds_squeeze = squeeze(ds)
-%%
-% Create a random input image batch
-% x = randn(10, 10, 1, 2, 'single') ;
-% % Forward mode: evaluate the conv follwed by ReLU
-% y = vl_nnconv(x, w, []) ; % (8     8     1     2)
-% z = vl_nnrelu(y) ; % (8     8     1     2)
-% % Pick a random projection tensor
-% p = randn(size(z), 'single') ; % (8     8     1     2)
-% % Backward mode: projected derivatives
-% dy = vl_nnrelu(z, p) ; % (8     8     1     2)
-% [dx,dw] = vl_nnconv(x, w, [], dy) ; 
-% %size(dx) = 10    10     1     2
-% %size(dw) = 3     3

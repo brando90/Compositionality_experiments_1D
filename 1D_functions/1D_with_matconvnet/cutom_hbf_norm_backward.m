@@ -1,8 +1,8 @@
 function [ dzdx, dzdw, dzds ] = cutom_hbf_norm_backward( X,W,S,Delta_tilde,p )
 % computes derivatives of block
-W = squeeze(W); % (D^(l-1) x D^(l))
+% W % (D^(l-1) x D^(l))
 P = squeeze(p); % (D^(l) x M)
-X = squeeze(X)'; % (M x D^(l-1))
+X = squeeze_for_data(X); % (M x D^(l-1))
 %% compute dzdx
 p_sum = sum(P,1)'; % (M x 1) = (1 x M)'= sum(D^(l) x M)'
 XP = bsxfun(@times, X, p_sum); % (M x D^(l-1)) =  (M x D^(l-1)) .x (M x 1)
