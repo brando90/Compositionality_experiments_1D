@@ -1,3 +1,8 @@
-function [ A ] = get_custom_exp_forward( Z )
-A = exp(Z);
+function [ forward_function ] = get_custom_exp_forward( fwfun )
+forward_function = @forward;
+%res(i+1) = layer.forward(layer, res(i), res(i+1))
+  function res_ =  forward(layer, res, res_)
+    A = fwfun(res.x) ;
+    res_.x = A;
+  end
 end
