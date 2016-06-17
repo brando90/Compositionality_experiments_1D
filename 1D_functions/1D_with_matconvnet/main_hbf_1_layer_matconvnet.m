@@ -6,44 +6,37 @@ load(data_set);
 %% make train/test data set
 N_train = 60000;
 N_test = 60000;
-X_train = X_train(1:N_train,:);
-Y_train = Y_train(1:N_train,:);
-X_test = X_test(1:N_test,:);
-Y_test = Y_test(1:N_test,:);
-%split = ones(1,M);
-%split(floor(M*0.75):end) = 2;
-%imdb.images.set = split;
-% load image dadabase (imgdb)
-imdb.images.data = X_train;
-imdb.images.label = Y_test;
+imbd = make_1D_data_matconvnet_format( X_train, X_train, X_test, Y_test );
 %% prepare parameters
 L1=3;
-
-%TODO
-w1 = randn(D1, L1); %1st layer weights
+D1=1;
+w1 = randn(1,1, D1,L1); % D
 s1 = 0.5; %1st layer std
-
-%TODO
-w2 = randn(1,1,1,L1); %2nd layer weights
-b2 = randn(1,1,1,L1); %2nd layer biases
-
-%TODO
+c1 = randn(1, L1); %1st layer coeffs
 G1 = ones(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN scale, one per  dimension
 B1 = zeros(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN shift, one per  dimension
 bn_eps = 1e-4;
+%% learning rate
+eta_w1 = 0.9;
+eta_s1 = 0.9;
+eta_G1 = 0.9;
+eta_B1 = 0.9;
+eta_G1 = 0.9;
+%% weight decay
+decay_w1 = 1; %TODO what is this?
+decay_s1 = 1; %TODO what is this?
 %% make HBF
 net.layers = {} ;
-addCustom_hbf_norm_layer(net, @cutom_hbf_norm_forward, @cutom_hbf_norm_backward);
 net.layers{end+1} = struct('type', 'custom', ...
                            'name', 'hbf_norm1',...
                            'forward', get_custom_hbf_norm_forward(@cutom_hbf_norm_forward), ...
                            'backward', get_custom_hbf_norm_backward(@cutom_hbf_norm_backward), ...
-                           'weights', {w1,s1}, ...
-                           'learningRate', [0.9 0.9], ... %TODO
-                           'weightDecay', [1 1]) ; %TODO
-net.layers{end+1} = struct('type', 'bnorm', ...
+                           'weights', {{w1,s1}}, ...
+                           'learningRate', [eta_w1 eta_s1], ...
+                           'weightDecay', [decay_w1 decay_s1]) ;
+net.layers{end+1} = struct('type', 'bnorm', ...net.layers{1, 1}.weights
                            'name', 'bnorm1',...
-                           'weights', {{g1, b1}}, ...
+                           'weights', {{G1, B1}}, ...
                            'EPSILON', bn_eps, ...
                            'learningRate', [1 1 0.05], ...
                            'weightDecay', [0 0]) ;  
@@ -53,7 +46,7 @@ net.layers{end+1} = struct('type', 'custom', ...
                            'backward', get_custom_hbf_norm_backward(@cutom_hbf_norm_backward) ) ;
 net.layers{end+1} = struct('type', 'conv', ...
                            'name', 'conv2', ...
-                           'weights', {{w2, b2}}, ...
+                           'weights', {{c1, []}}, ...
                            'pad', 0) ;
 net.layers{end+1} = struct('type', 'pdist', ...
                            'name', 'averageing1', ...
