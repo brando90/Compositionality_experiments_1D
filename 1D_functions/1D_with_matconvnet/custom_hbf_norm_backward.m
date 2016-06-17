@@ -15,7 +15,7 @@ dzdx(1,1,:,:) = dx';
 P = P'; % (M x D^(l))
 PP = reshape(P,[1, size(P) ]); % (1 x M x D^(l))
 T_imj= bsxfun(@times, PP, X' ); % (D^(l-1) x M x D^(l)) = (1 x M x D^(l)) .* (D^(l-1) x M x 1) = (1 x M x D^(l)) .* (D^(l-1) x M)
-PX = squeeze( sum(T_imj,2) ); % (D^(l-1) x D^(l))
+PX = squeeze_keep_dimensions( sum(T_imj,2) ); % (D^(l-1) x D^(l))
 PW = bsxfun(@times, W, sum(P,1)); % (D^(l-1) x D^(l)) = (D^(l-1) x D^(l)) .* (1 x D^(l))
 dw = 2*S*(PX - PW); % (D^(l-1) x D^(l))
 dzdw = dw;

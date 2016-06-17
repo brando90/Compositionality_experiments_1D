@@ -1,4 +1,4 @@
-%% hbf_norm Unit test
+%% hbf_norm unit test
 folderName = fullfile('..');
 p = genpath(folderName);
 addpath(p);
