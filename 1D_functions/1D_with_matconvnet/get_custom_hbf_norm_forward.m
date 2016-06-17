@@ -7,6 +7,6 @@ forward_function = @forward;
     S = layer.weights{2}; 
     [z, Delta_tilde] = fwfun(res.x, W,S ) ;
     res_.x = z;
-    res_.Delta_tilde = Delta_tilde;
+    res_.aux = Delta_tilde;
   end
 end

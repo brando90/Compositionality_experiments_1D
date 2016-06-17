@@ -1,4 +1,4 @@
-function [ dzdx, dzdw, dzds ] = cutom_hbf_norm_backward( X,W,S,Delta_tilde,p )
+function [ dzdx, dzdw, dzds ] = custom_hbf_norm_backward( X,W,S,Delta_tilde,p )
 % computes derivatives of block
 % W % (D^(l-1) x D^(l))
 P = squeeze_keep_dimensions(p); % (D^(l) x M)
