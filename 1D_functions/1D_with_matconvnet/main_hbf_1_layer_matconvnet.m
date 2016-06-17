@@ -71,7 +71,7 @@ res = vl_simplenn(net, imdb.images.data, 1);
 for epoch=1:trainOpts.numEpochs
     %% forward pass and compute derivatives
     projection = 1;
-    res = vl_simplenn(net, X_train, projection); % check these derivatives numerically?
+    res = vl_simplenn(net, imdb.images.data, projection); % check these derivatives numerically?
     %% SGD
     num_layers = size(net, 2);
     for l=num_layers:-1:1

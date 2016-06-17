@@ -7,7 +7,6 @@ backward_function = @backward;
     Delta_tilde = res_.aux;
     [ dzdx, dzdw, dzds ] = bwfun(res.x,W,S,Delta_tilde, res_.dzdx) ;
     res.dzdx = dzdx;
-    res.dzdw = dzdw;
-    res.dzds = dzds;
+    res.dzdw = {dzdw,dzds};
   end
 end
