@@ -21,8 +21,8 @@ Y_train = zeros(1,1,1,N_train); % (N_train  x 1)
 X_test = zeros(1,1,1,N_test); % (N_test  x 1)
 Y_test = zeros(1,1,1,N_test); % (N_test  x 1)
 %
-X_train(1,1,1,:) = X_train(1:N_train,:); % (N_train  x 1)
-Y_train(1,1,1,:) = Y_train(1:N_train,:); % (N_train  x 1)
-X_test(1,1,1,:) = X_test(1:N_test,:); % (N_test  x 1)
-Y_test(1,1,1,:) = Y_test(1:N_test,:); % (N_test  x 1)
+X_train(1,1,1,:) = X_train; % (N_train  x 1)
+Y_train(1,1,1,:) = Y_train; % (N_train  x 1)
+X_test(1,1,1,:) = X_test; % (N_test  x 1)
+Y_test(1,1,1,:) = Y_test; % (N_test  x 1)
 end

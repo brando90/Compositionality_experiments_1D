@@ -11,7 +11,7 @@ N_test = 60000;
 L1=3;
 D1=1;
 w1 = randn(D1,L1); % D
-s1 = 0.5; %1st layer std
+s1 = 0.005; %1st layer std
 c1 = randn(1,1,1,L1); %1st layer coeffs
 G1 = ones(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN scale, one per  dimension
 B1 = zeros(1,1,1,L1); % (1 1 1 3) = (1 1 1 L1) BN shift, one per  dimension
@@ -69,7 +69,7 @@ trainOpts.errorFunction = 'none' ; % TODO
 %% CNN TRAIN
 res = vl_simplenn(net, imdb.images.data, 1);
 train_errors = zeros(1,trainOpts.numEpochs);
-test_errors = zeros();
+test_errors = zeros(1,trainOpts.numEpochs);
 for epoch=1:trainOpts.numEpochs
     %% get minibatch
     mini_batch_indices = ceil(rand(trainOpts.batchSize,1) * N_train); % M
@@ -87,14 +87,18 @@ for epoch=1:trainOpts.numEpochs
             net.layers{l}.weights{j} = net.layers{l}.weights{j} - net.layers{l}.learningRate(j)*res(l).dzdw{j}; 
         end    
     end
+    net.layers{end}.class = Y_train;
     res = vl_simplenn(net, X_train, projection);
-    train_errors(epoch) = res.x;
-    res = vl_simplenn(net, X_train, projection);
-    test_errors(epoch) = res.x;
+    train_errors(epoch) = res(7).x;
+    
+    net.layers{end}.class = Y_test;
+    res = vl_simplenn(net, X_test, projection);
+    test_errors(epoch) = res(7).x;
 end
 %%
 % vl_simplenn_display(net) ;
 % net = cnn_train(net, imdb, @getBatch, trainOpts) ;
+plot(1:trainOpts.numEpochs,train_errors);
 %%
 disp('END')
 beep;beep;beep;beep;
