@@ -6,7 +6,7 @@ load(data_set);
 %% make train/test data set
 N_train = 60000;
 N_test = 60000;
-imdb = make_1D_data_matconvnet_format( N_train, N_test, X_train, X_train, X_test, Y_test );
+[imdb, X_train, Y_train, X_test, Y_test] = make_1D_data_matconvnet_format( N_train, N_test, X_train, X_train, X_test, Y_test );
 %% prepare parameters
 L1=3;
 D1=1;
@@ -60,7 +60,7 @@ net = vl_simplenn_tidy(net) ;
 %% prepare train options
 trainOpts.expDir = 'results/' ; % TODO %save results/trained cnn
 trainOpts.gpus = [] ; % TODO 
-trainOpts.batchSize = 2 ;
+trainOpts.batchSize = 4 ;
 trainOpts.learningRate = 0.02 ; %TODO: why is this learning rate here?
 trainOpts.plotDiagnostics = false ; % TODO 
 %trainOpts.plotDiagnostics = true ; % Uncomment to plot diagnostics
@@ -68,18 +68,33 @@ trainOpts.numEpochs = 50 ; % number of training epochs
 trainOpts.errorFunction = 'none' ; % TODO 
 %% CNN TRAIN
 res = vl_simplenn(net, imdb.images.data, 1);
+train_errors = zeros(1,trainOpts.numEpochs);
+test_errors = zeros();
 for epoch=1:trainOpts.numEpochs
+    %% get minibatch
+    mini_batch_indices = ceil(rand(trainOpts.batchSize,1) * N_train); % M
+    Xminibatch =  X_train(:,:,:,mini_batch_indices); % ( M x D ) =( M x D^(0) )
+    Yminibatch = Y_train(:,:,:,mini_batch_indices); % ( M x D^(L) )
     %% forward pass and compute derivatives
     projection = 1;
-    res = vl_simplenn(net, imdb.images.data, projection); % check these derivatives numerically?
+    net.layers{end}.class = Yminibatch;
+    res = vl_simplenn(net, Xminibatch, projection); % check these derivatives numerically?
     %% SGD
     num_layers = size(net, 2);
     for l=num_layers:-1:1
+        % numel gets Number of elements (number of matrices that hold parameters) and then we go through each one for each layer
         for j=1:numel(res(l).dzdw)
             net.layers{l}.weights{j} = net.layers{l}.weights{j} - net.layers{l}.learningRate(j)*res(l).dzdw{j}; 
         end    
     end
+    res = vl_simplenn(net, X_train, projection);
+    train_errors(epoch) = res.x;
+    res = vl_simplenn(net, X_train, projection);
+    test_errors(epoch) = res.x;
 end
 %%
+% vl_simplenn_display(net) ;
+% net = cnn_train(net, imdb, @getBatch, trainOpts) ;
+%%
 disp('END')
-beep;
+beep;beep;beep;beep;
